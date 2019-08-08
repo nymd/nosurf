@@ -73,9 +73,13 @@ func verifyToken(realToken, sentToken []byte) bool {
 	realN := len(realToken)
 	sentN := len(sentToken)
 
+	// Over xhr, tokens should be simply equal
+	if realN == tokenLength && sentN == tokenLength {
+		return string(realToken[:]) == string(sentToken[:])
+	}
+
 	// sentN == tokenLength means the token is unmasked
 	// sentN == 2*tokenLength means the token is masked.
-
 	if realN == tokenLength && sentN == 2*tokenLength {
 		return verifyMasked(realToken, sentToken)
 	}
